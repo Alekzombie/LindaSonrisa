@@ -1,14 +1,22 @@
+<%-- 
+    Document   : plantillaRegistrarServicio
+    Created on : 20-05-2018, 16:30:05
+    Author     : lmerino
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/style_plantilla.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
+    
+<style>
 table, td, th {    
     text-align: left;
     font-size: 12px;
@@ -23,10 +31,9 @@ th, td {
     padding: 4px;
 }
 </style>
-</head>
-<body>
-    <main>  
-        <form action="/LindaSonrisa/agregarServicio" method="POST">
+    </head>
+    <body>
+         <form action="/LindaSonrisa/agregarServicio" method="POST">
             <section class="content">
             <table border="0">
                 <tbody>
@@ -61,6 +68,5 @@ th, td {
                 alert("${mensaje}");
             </script>
         </c:if>
-    </main>
-</body>
+    </body>
 </html>

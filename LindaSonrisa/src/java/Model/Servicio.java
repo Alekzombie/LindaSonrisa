@@ -6,10 +6,10 @@ public class Servicio {
     private String descripcion;
     private int precio;
     private int duracion;
-    private boolean disponible;
+    private int disponible;
     private Empleado[] empleados;
         
-    public Servicio(int id, String descripcion, int precio, int duracion, boolean disponible, Empleado[] empleados) {
+    public Servicio(int id, String descripcion, int precio, int duracion, int disponible, Empleado[] empleados) {
         this.id = id;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -63,14 +63,14 @@ public class Servicio {
     /**
      * @return the disponible
      */
-    public boolean isDisponible() {
+    public int getDisponible() {
         return disponible;
     }
 
     /**
      * @param disponible the disponible to set
      */
-    public void setDisponible(boolean disponible) {
+    public void setDisponible(int disponible) {
         this.disponible = disponible;
     }
 

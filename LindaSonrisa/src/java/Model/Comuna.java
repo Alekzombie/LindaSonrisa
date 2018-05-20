@@ -12,6 +12,9 @@ public class Comuna {
         this.nroRegion = nroRegion;
     }
 
+    public Comuna() {
+    }
+
     public int getId() {
         return id;
     }

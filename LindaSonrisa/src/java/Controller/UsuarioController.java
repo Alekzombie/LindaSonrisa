@@ -1,5 +1,8 @@
 package Controller;
 
+import Model.Contacto;
+import Model.Domicilio;
+import Model.Persona;
 import Model.PersonaNatural;
 import Model.PlanSalud.Fonasa;
 import Model.PlanSalud.Grupo;
@@ -19,9 +22,10 @@ public class UsuarioController {
     private static final String VERIFY_USER = "SELECT * FROM usuario WHERE nombre_usuario = ? and contraseña = ?";
     private static final String CHANGE_PASS = "UPDATE USUARIO SET cambiar_contraseña = 1, contraseña = (SELECT SUBSTR(rut,1,LENGTH(rut)-2) FROM CONTACTO WHERE correo_electronico = ?) WHERE rut = (SELECT RUT FROM CONTACTO WHERE correo_electronico = ?)";
 
-    private static final String MODIFY_USER = "UPDATE NATURAL SET CANT_DE_CARGAS=?,ID_ISAPRE=?,ID_GRUPO_FONASA=? WHERE RUT=?;"
-            + "UPDATE CONTACTO SET CORREO_ELECTRONICO=?,TELEFONO_FIJO=?,TELEFONO_MOVIL=? WHERE RUT=?;"
-            + "UPDATE DOMICILIO SET NOMBRE_CALLE=?,NRO_CALLE=?,CASA_DEPTO=?,NRO_DEPTO=?,ID_COMUNA=? WHERE RUT=?;";
+ 
+    private static final String MODIFY_NATURAL = "UPDATE NATURAL SET CANT_DE_CARGAS=?,ID_ISAPRE='NONE',ID_GRUPO_FONASA='NONE' WHERE RUT=?";
+    private static final String MODIFY_CONTACT = "UPDATE CONTACTO SET CORREO_ELECTRONICO=?,TELEFONO_FIJO=?,TELEFONO_MOVIL=? WHERE RUT=?";
+    private static final String MODIFY_DOMICILIO = "UPDATE DOMICILIO SET NOMBRE_CALLE=?,NRO_CALLE=?,CASA_DEPTO=?,NRO_DEPTO=?,ID_COMUNA=? WHERE RUT=?";
 
     public static boolean agregarUsuario(Usuario user) {
         try (Connection con = Oracle.getConnection()) {
@@ -55,42 +59,24 @@ public class UsuarioController {
     }
     
 //      "UPDATE NATURAL SET CANT_DE_CARGAS=?,ID_ISAPRE=?,ID_GRUPO_FONASA=? WHERE RUT=?"
-//      "UPDATE CONTACTO SET CORREO_ELECTRONICO=?,TELEFONO_FIJO=?,TELEFONO_MOVIL=? WHERE RUT=?"
-//      "UPDATE DOMICILIO SET NOMBRE_CALLE=?,NRO_CALLE=?,CASA_DEPTO=?,NRO_DEPTO=?,ID_COMUNA=? WHERE RUT=?";
-
-    public static boolean modificar(PersonaNatural usuario) {
+    public static boolean modificarNatural(PersonaNatural usuario) {
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement(MODIFY_USER)) {
+            try (PreparedStatement stmt = con.prepareStatement(MODIFY_NATURAL)) {
+
+                stmt.setInt(1, usuario.getCantidadCargas());
+                stmt.setString(2, usuario.getRut());
                 if (stmt.executeUpdate() == 1) {
-                    stmt.setInt(1, usuario.getCantidadCargas());
-                    PlanSalud auxps = usuario.getPlanSalud();
-                    if (auxps instanceof Fonasa) {
-                        stmt.setString(3, ((Grupo) auxps).getId());
-                        stmt.setString(2, "NONE");
-                    } else {
-                        stmt.setString(3, "NONE");
-                        stmt.setString(2, ((Isapre) auxps).getId());
-                    }
-                    stmt.setString(4,usuario.getRut());
-                    //------------
-                    stmt.setString(5,usuario.getContacto().getCorreoElectronico());
-                    stmt.setString(6,usuario.getContacto().getTelefonoFijo());
-                    stmt.setString(7,usuario.getContacto().getTelefonoMovil());
-                    stmt.setString(8,usuario.getRut());
-                    //------------
-              
-                 
-                    
-                    
                     return true;
                 }
+                return true;
+
             }
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Error en UsuarioController.modificar. " + ex.getMessage());
         }
         return false;
     }
-    
+     
     public static Usuario buscar(String username){
         Usuario user = new Usuario();
         try(Connection con = Oracle.getConnection()){
@@ -107,6 +93,46 @@ public class UsuarioController {
         }
         return user;
     }
+    
+        public static boolean modificarContacto(Persona usuario) {
+        try (Connection con = Oracle.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement(MODIFY_CONTACT)) {
+                stmt.setString(1, usuario.getContacto().getCorreoElectronico());
+                stmt.setString(2, usuario.getContacto().getTelefonoFijo());
+                stmt.setString(3, usuario.getRut());
+                if (stmt.executeUpdate() == 1) {
+                    return true;
+                }
+                return true;
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("ERROR EN USUARIOCONTROLLER.modificarContacto" + ex.getMessage());
+        }
+        return false;
+    }
+    
+    //      "UPDATE DOMICILIO SET NOMBRE_CALLE=?,NRO_CALLE=?,CASA_DEPTO=?,NRO_DEPTO=?,ID_COMUNA=? WHERE RUT=?";
+    public static boolean modificarDomicilio(Domicilio usuario) {
+        try (Connection con = Oracle.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement(MODIFY_DOMICILIO)) {
+                stmt.setString(1, usuario.getNombreCalle());
+                stmt.setInt(2, usuario.getNro_calle());
+                stmt.setInt(3,usuario.getCasa_depto());
+                stmt.setString(4, usuario.getNro_depto());
+                stmt.setInt(5, usuario.getComuna().getId());
+                stmt.setString(6,usuario.getPersona().getRut());
+                if (stmt.executeUpdate() == 1) {
+                    return true;
+                }
+                return true;
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("ERROR EN USUARIOCONTROLLER.modificarContacto" + ex.getMessage());
+        }
+        return false;
+    }  
 
     public static boolean verificar(String username, String password) {
         try (Connection con = Oracle.getConnection()) {
