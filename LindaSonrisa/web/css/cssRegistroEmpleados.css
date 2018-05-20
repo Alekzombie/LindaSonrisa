@@ -1,0 +1,85 @@
+.employee
+{
+	border: 1px solid transparent;
+	width: 500px;
+	display: flex;
+	justify-content: space-between;
+
+}
+.click
+{
+	content: '';
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.click:hover
+{
+	text-decoration: none;
+	background-color: #8A8A8A;
+}
+.employee .employee-admin
+{
+	background-color: #38988E;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.employee .employee-medico
+{
+	background-color:#5D68B8;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.employee .employee-secretaria
+{
+	background-color: #F5815D;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.employee .employee-proveedor
+{
+	background-color: #B1A94F ;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.admin
+{
+	color: white;
+	font-size: 14px;
+}
+
+.medico
+{
+	color: white;
+	font-size: 14px;
+}
+
+.secretaria
+{
+	color: white;
+	font-size: 14px;
+}
+
+.proveedor
+{
+	color: white;
+	font-size: 14px;
+}

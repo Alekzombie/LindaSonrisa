@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JSP Page</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/style_plantilla.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+table, td, th {    
+    text-align: left;
+    font-size: 12px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 500px;
+}
+
+th, td {
+    padding: 4px;
+}
+</style>
+
+</head>
+<body>
+    <main>
+       <section class="content">
+    <table  cellspacing="8">
+    <tbody>
+        <tr>
+            <td style="color: #0cc; text-align: center;">Personal</td>
+            <td style="color: #0cc; text-align: center;">Domicilio</td>
+        </tr>
+        <tr>
+            <td>*Rut</td>
+            <td>Region</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="txtRut" value="" placeholder="1111111-1" required="" /></td>
+            <td><select name="cmbRegion">
+                                <option>opcion</option>        
+                            </select></td>
+        </tr>
+        <tr>
+            <td>*Nombre(s)</td>
+            <td>Comuna</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="txtNombre" value="" required="" /></td>
+                 <td><select name="cmbComuna">
+                                <option>opcion</option>        
+                            </select></td>
+        </tr>
+        <tr>
+            <td>*Apellido Paterno</td>
+            <td>Calle/Avenida/Pasaje</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="txtPaterno" value="" required="" /></td>
+            <td><input type="text" name="txtDireccion" value="" /></td>
+        </tr>
+         <tr>
+            <td>*Apellido Materno</td>
+            <td>Nro</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="txtMaterno" value="" required="" /></td>
+            <td><input type="text" name="txtNroCasa" value="" /></td>
+        </tr>
+        <tr>
+            <td>*Fecha Nacimiento</td>
+            <td>Depto.</td>
+        </tr>
+        <tr>
+          <td><input type="date" name="calFechaNacimiento" value="" required="" /></td>
+           <td><input type="text" name="txtNroDepto" value="" /></td>
+        </tr>
+        <tr>
+            <td style="color: #0cc; text-align: center;">Contacto</td>
+            <td style="color: #0cc; text-align: center;">Perfil</td>
+        </tr>
+        <tr>
+          <td>*Mail</td>
+          <td>*Nombre de Usuario(sin espacios)</td>
+        </tr>
+        <tr>
+          <td><input type="text" name="txtMail" value="" required="" /></td>
+          <td><input type="text" name="txtUsuario" value="" /></td>
+        </tr>
+        <tr>
+          <td>Teléfono Fijo</td>
+          <td>*Contraseña</td>
+        </tr>
+        <tr>
+          <td><input type="text" name="txtTelefonoFijo" value="" /></td>
+          <td><input type="text" name="txtContraseña" value="" required="" /></td>
+        </tr>
+        <tr>
+          <td>*Teléfono Movil</td>
+          <td>Los * indican campos obligatorios</td>
+        </tr>
+        <tr>
+          <td><input type="text" name="txtTelefonoMovil" value="" required="" /></td>
+          <td><input type="submit" value="Registrar" name="btnRegistrar" /></td>
+        </tr>
+
+       
+    </tbody>
+</table>
+    </section> 
+</main>
+</body>
+</html>

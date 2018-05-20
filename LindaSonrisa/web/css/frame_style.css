@@ -1,0 +1,130 @@
+*
+{
+    box-sizing: border-box;
+}
+body{
+    height: 100%;
+    font-family: sans-serif;
+    font-size: 16px;    
+}
+.nav 
+{
+    min-height: 60px;
+    max-height: 60px;
+    width: 100%;
+    background: #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+.nav .logo
+{
+    margin:0px;
+    background: #2a3f54;
+    height: 60px;
+    width: auto;
+    min-width: 200px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+}
+.nav .logo .logo-img
+{
+    width: auto;
+    height: 100%;
+}
+.nav .user
+{
+    display:flex;
+    flex-flow: column wrap;
+    align-items: flex-end;
+    padding: 10px;
+}
+.nav .user .user-name
+{
+    font-weight: bold;
+}
+.nav .user .user-logout
+{
+    font-size: .75rem;
+    color: darkred;
+}
+.nav .user .user-logout:hover
+{
+    font-size: .75rem;
+    font-weight: bold;
+    text-decoration:none;
+    color: darkred;
+}
+.main
+{
+    display: flex;
+    justify-content: flex-start;    
+}
+.side
+{
+    background: #2a3f54;
+    width: 200px;    
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+.module
+{
+    margin: 10px 10px 10px 0px;    
+}
+.module .module-title
+{
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    color:white;
+    background: #527aa3;
+    vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.module .module-content
+{
+    list-style-type: none;
+    width: 100%;
+}
+.module .module-option
+{
+    color: #0cc;
+    margin: 4px 0;
+    position: relative;
+}
+.module .module-option:after
+{
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 4px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 8px solid #0cc;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    
+}
+.content
+{
+    height:100vh;
+    padding: 15px;
+    flex-grow: 1;
+}
+.link
+{
+    text-decoration: none;
+    color: #0cc;
+}
+.link:hover
+{
+    text-decoration: none;
+    color: #fff;
+}

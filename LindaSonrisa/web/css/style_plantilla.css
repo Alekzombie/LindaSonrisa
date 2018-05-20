@@ -1,0 +1,105 @@
+*
+{
+    box-sizing: border-box;
+}
+body{
+    height: 100%;
+    font-family: sans-serif;
+    font-size: 16px;    
+}
+.top
+{   
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    background: #e6e6e6;
+    padding: 10px;
+    /* centrar vertical */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    /* fin centrar */
+}
+.top .user
+{
+    display:flex;
+    flex-flow: column wrap;
+    align-items: flex-end;
+}
+.top .user .user-name
+{
+    font-weight: bold;
+}
+.top .user .user-logout
+{
+    font-size: .75rem;
+    color: darkred;
+}
+.top .user .user-logout:hover
+{
+    font-size: .75rem;
+    font-weight: bold;
+    text-decoration:none;
+    color: darkred;
+}
+.side
+{
+    width: 20%;
+    background: #2a3f54;
+    position: absolute;
+    left:0;
+}
+.side .logo
+{
+    margin:0px;
+    background: #2a3f54;
+    height: 60px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+}
+
+.logo-img
+{
+    width: auto;
+    height: 100%;
+}
+
+.module
+{
+    margin: 10px 10px 10px 0px;    
+}
+.module .module-title
+{
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    color:white;
+    background: #527aa3;
+    vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.module .module-content
+{
+    list-style-type: none;
+    width: 100%;
+}
+.module .module-option
+{
+    color: #0cc;
+}
+
+.link
+{
+    text-decoration: none;
+    color: #0cc;
+}
+.link:hover
+{
+    text-decoration: none;
+    color: #fff;
+}
