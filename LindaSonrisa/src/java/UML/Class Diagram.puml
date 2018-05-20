@@ -1,0 +1,342 @@
+@startuml
+abstract class Controller.PersonaController{
+    .. Private Data ..
+    - {static} String INSERT_PERSONA
+    - {static} String INSERT_NATURAL
+    - {static} String INSERT_JURIDICA
+    - {static} String DELETE_PERSONA
+    - {static} String DELETE_NATURAL
+    - {static} String DELETE_JURIDICA
+    .. Methods ..
+    - {static} agregarPersona(persona) : boolean
+    + {static} agregarNatural(persona) : boolean
+    + {static} agregarJuridica(persona) : boolean
+    - {static} eliminarPersona(persona) : boolean
+    + {static} eliminarNatural(perosna) : boolean
+    + {static} eliminarJuridica(persona) : boolean
+}
+
+class Controller.UsuarioController{
+	.. Private Data ..
+	- {static} String VERIFY_USER;
+	- {static} String ADD_USER;
+	.. Methods ..
+	+ {static} agregarUsuario(usuario) : boolean
+	+ {static} verificar(string, string) : boolean
+        + {static} modificar(usuario) : boolean
+        + {static} cambiarContraseña(boolean, string) : boolean
+}
+
+class Controller.ProveedorController{
+    .. Private Data ..
+    - {static} String INSERT_PROVEEDOR
+    - {static} String SELECT_PROVEEDOR
+    - {static} String DELETE_PROVEEDOR
+    .. Methods ..
+    + {static} agregar(proveedor) : boolean
+    + {static} eliminar(string) : boolean
+    + {static} modificar(string) : boolean
+    + {static} existeRegistro(string) : boolean
+}
+
+class Controller.EmpleadoController{
+    .. Private Data ..
+    - {static} String INSERT_EMPLEADO
+    .. Methods ..
+    + {static} agregar(empleado) : boolean
+    + {static} modificar(empleado) : boolean
+}
+
+class Controller.CargoConvert{
+	- {static} String NAME_TO_ID
+	- {static} String ID_TO_NAME
+	+ {static} idToName(int) String
+	+ {static} nameToId(string) Int
+}
+
+class Controller.ContactoController{
+    - {static} String UPDATE_CONTACTO
+    + {static} boolean modificar(persona)
+}
+
+interface Model.PlanSalud.Fonasa{
+	+ calcularDescuento(double) : double
+	+ calcularCopago(double) : double
+}
+
+interface Model.PlanSalud.PlanSalud
+
+abstract class Model.PlanSalud.Grupo{
+    .. Private Data ..
+    - String id
+    - double copago
+    - double descuento
+    .. Getters ..
+    + getId() : String
+    + getCopago() : double
+    + getDescuento() : double
+    .. Overrides ..
+    + calcularDescuento(double) : double
+    + calcularCopago(double) : double
+}
+class Model.PlanSalud.Grupo_A{
+    .. Constructor ..
+    + Grupo_A()
+    .. Overrides ..
+    + toString() : String
+}
+class Model.PlanSalud.Grupo_B{
+    .. Constructor ..
+    + Grupo_B()
+    .. Overrides ..
+    + toString() : String
+}
+class Model.PlanSalud.Grupo_C{
+    .. Constructor ..
+    + Grupo_C()
+    .. Overrides ..
+    + toString() : String
+}
+class Model.PlanSalud.Grupo_D{
+    .. Constructor ..
+    + Grupo_D()
+    .. Overrides ..
+    + toString() : String
+}
+class Model.PlanSalud.Isapre{
+    .. Private Data ..
+    - String id
+    - String nombre
+    .. Constructor ..
+    + Isapre(string, string)
+    .. Getters ..
+    + getId() : String
+    + getNombre() : String
+    .. Overrides ..
+    toString(): String
+}
+
+abstract class Model.Persona{
+	.. Private Data ..
+	- String rut
+	- String nombre
+	- Contacto contacto
+	.. Constructor ..
+	+ Persona(string, string, contacto)
+	.. Gets ..
+	+ getRut() : String
+	+ getNombre() : string
+	+ getContacto() : Contacto
+}
+
+class Model.Cliente{
+    .. Constructor ..
+    Cliente(string, string, date, int, planSalud, string, string, contacto)
+    
+}
+
+class Model.Reserva{
+    - int id
+    - String estadoReserva
+    - int moduloTiempo
+    - Servicio servicio
+    - Cliente cliente
+    .. Getters ..
+    + getId() : int
+    + getEstadoReserva() : string
+    + getModuloTiempo() : int
+    + getServicio() : servicio
+    + getCliente() : cliente
+    .. Setters ..
+    + setEstadoReserva(string)
+    + setModuloTiempo(int)
+    + setServicio(servicio)
+}
+
+class Model.Usuario{
+	.. Private Data ..
+	- String nombreUsuario
+	- String contraseña
+	- String rutPersona
+	- boolean contraseñaCambiada
+	- String tipoUsuario
+	.. Constructor ..
+	+ Usuario(string, string, string, boolean, string)
+	.. Getters ..
+	+ getNombreUsuario() : String
+	+ getContraseña() : String
+	+ getRutPersona() : String
+	+ isContraseñaCambiada() : boolean
+	+ getTipoUsuario() : String
+}
+
+class Model.Contacto{
+	.. Private Data ..
+	- String correoElectronico
+	- String telefonoMovil
+	- String telefonoFijo
+	.. Constructor ..
+	+ Contacto(string, string, string)
+	.. Getters ..
+	+ getCorreoElectronico() : String
+	+ getTelefonoMovil() : String
+	+ getTelefonoFijo() : String
+	.. Setters ..
+	+ setCorreoElectronico(string)
+	+ setTelefonoMovil(string)
+	+ setTelefonoFijo(string)
+}
+
+abstract class Model.PersonaNatural{
+	.. Private Data ..
+	- String apellidoPaterno
+	- String apellidoMaterno
+	- Date fechaNacimiento
+	- int cantidadCargas
+	- PlanSalud planSalud
+	.. Constructor ..
+	+ PersonaNatural(string, string, date, int, planSalud, string, string, contacto)
+	.. Getters ..
+	+ getApellidoPaterno() : String
+	+ getApellidoMaterno() : String
+	+ getFechaNacimiento() : Date
+	+ getCantidadCargas() : int
+	+ getPlanSalud() : PlanSalud
+	.. Setters ..
+	+ setCantidadCargas()
+	+ setPlanSalud()
+} 
+class Model.Empleado{
+	.. Private Data ..
+	- String cargo
+	.. Constructor ..
+	+ Empleado(string, string, string, date, int, planSalud, string, string, contacto)
+	+ getCargo() : String
+	+ setCargo(string)
+
+}
+abstract class Model.PersonaJuridica{
+    .. Private Data ..
+    - String giro;
+    .. Constructor ..
+    + PersonaJuridica(string, string, string, conctacto)
+    .. Getters ..
+    getGiro() : String
+}
+
+class Model.Producto{
+    .. Private Data ..
+    - String id
+    - String descripcion
+    - Date fechaVencimiento
+    - String tipoProducto
+    - String familiaProducto
+    - Proveedor proveedor
+    .. Construnctor ..
+    + Producto(string, string, date, string, string, proveedor)
+    .. Getters ..
+    getId() : String
+    getDescripcion() : String
+    getFechaVencimiento() : Date
+    getTipoProducto() : String
+    getFamiliaProducto() : String
+    getProveedor() : Proveedor
+    .. Setters ..
+    setDescripcion(string)
+    setFechaVencimiento(date)
+    setTipoProducto(string)
+    setFamiliaProducto(string)
+    setProveedor(proveedor)
+}
+class Model.Proveedor{
+    .. Private Data ..
+    - int id;
+    .. Constructor ..
+    + Proveedor(int, string, string, string, contacto
+    .. Getters ..
+    + getId()
+}
+class Model.Servicio{
+    .. Private Data ..
+    - String id
+    - String descripcion
+    - int precio
+    - int duracion
+    - boolean disponible
+    - Empleado[] empleados
+    .. Constructor ..
+    Servicio(string, string,int, int, boolean, empleado[])
+    .. Getters ..
+    + getId() : String
+    + getDescripcion() : String
+    + getPrecio() : int
+    + isDisponible() : boolean
+    + getDuracion() : int
+    + getEmpleados() : Empleado[]
+    .. Setters ..
+    + setDescripcion(string)
+    + setPrecio(int)
+    + setDisponible(boolean)
+    + setDuracion(int)
+    + setEmpleados(empleado[])
+}
+
+class Model.Boleta{
+    .. Private Data ..
+    - int numero;
+    - Date fechaEmision;
+    - int valor;
+    - Reserva reserva
+    - String metodoPago
+    .. Constructor ..
+    + Boleta(date, int, reserva, metodoPago)
+    + Boleta(int, date, int, reserva, metodoPago)
+    .. Getters ..
+    + getNumero() : int
+    + getFechaEmision() : date
+    + getValor() : int;
+    + getReserva() : reserva
+    + getMetodoPago() : string
+}
+class Sql.Oracle{
+    .. Private Data ..
+    - {static} String url
+    - {static} String driverName
+    - {static} username
+    - {static} password
+    .. Methods ..
+    + {static} getConnection() : Connection
+}
+Model.PersonaJuridica --|> Model.Persona
+Model.PersonaNatural --|> Model.Persona
+Model.PersonaNatural ..> Model.PlanSalud.PlanSalud
+Controller.CargoConvert ..> Sql.Oracle
+Controller.ContactoController ..> Model.Contacto
+Controller.ContactoController ..> Sql.Oracle
+Controller.EmpleadoController --|> Controller.PersonaController
+Controller.EmpleadoController ..> Model.Empleado
+Controller.EmpleadoController ..> Sql.Oracle
+Controller.PersonaController ..> Model.Persona
+Controller.ProveedorController --|> Controller.PersonaController
+Controller.ProveedorController ..> Model.Proveedor
+Controller.ProveedorController ..> Sql.Oracle
+Controller.UsuarioController ..> Model.Usuario
+Controller.UsuarioController ..> Sql.Oracle
+Model.Cliente --|> Model.PersonaNatural
+Model.Empleado --|> Model.PersonaNatural
+Model.PlanSalud.Grupo --|> Model.PlanSalud.Fonasa
+Model.PlanSalud.Grupo_A --|> Model.PlanSalud.Grupo
+Model.PlanSalud.Grupo_B --|> Model.PlanSalud.Grupo
+Model.PlanSalud.Grupo_C --|> Model.PlanSalud.Grupo
+Model.PlanSalud.Grupo_D --|> Model.PlanSalud.Grupo
+Model.PlanSalud.Isapre --|> Model.PlanSalud.PlanSalud
+Model.Proveedor --|> Model.PersonaJuridica
+Model.PlanSalud.Fonasa --|> Model.PlanSalud.PlanSalud
+Model.Usuario ..> Model.Persona
+Model.Servicio ..> Model.Empleado
+Model.Reserva ..> Model.Servicio
+Model.Persona ..> Model.Contacto
+Model.Producto ..> Model.Proveedor
+Model.Reserva ..> Model.Cliente
+Model.Boleta ..> Model.Reserva
+@enduml

@@ -1,0 +1,130 @@
+@startuml
+Object ": Contacto " as ctc{
+    correo electronico = "aleksander.zombie@gmail.com"
+    telefono movil = "955331698"
+    telefono fijo = "000000000"
+}
+
+Object ": Cliente" as cli{
+    rut = "19133540-6"
+    fecha nacimiento = "10/06/1995"
+    cantidad cargas = 0
+    plan salud = "Grupo A"
+    nombre = "enzo"
+    apellido paterno = "lopez"
+    apellido materno = "betancourt"
+}
+
+Object ": Usuario" as usr{
+    nombre usuario = "enzo.lopez"
+    constrasena = "123456"
+    rut = "19133540-6"
+    contrasena cambiada = false
+    tipo usuario = "Cliente"
+}
+
+Object ": Servicio" as srv{
+    id = "LMPDNTL"
+    descripcion = "Limpieza Dental"
+    precio = 30000
+    duracion = 1
+    disponible = true
+    empleado[] = empleados
+    producto[] = productos
+}
+
+Object ": Producto" as prd{
+    id = "3-SUN-S740"
+    descripcion = "Selladora Sun-S740"
+    fecha vencimiento = "00/00/0000"
+    tipo producto = ""
+    familia producto ""
+    proveedor = 
+}
+
+Object ": Proveedor" as prov{
+    id = "100"
+    giro = "Importadora & Distribuidora de equipos e insumos odontológicos"
+    rut = "xxxxxxxx-x"
+    nombre = "dental america"
+}
+
+Object ": Contacto" as ctprov{
+    correo eletronico = " contacto@dentalamerica.cl"
+    telefono movil = "000000000"
+    telefono fijo = "562 2848 4171 / 22848 4254 / 23265 1204 / 23265 1029"
+}
+
+Object ": Reserva" as rsv{
+    id = 1005
+    estado reserva = "Confirmada"
+    modulo tiempo = 12052018115603637
+    servicio = "LMPDNTL"
+    cliente = "19133540-6"
+}
+
+Object ": Empleado" as emp{
+    rut = "15603637-4"
+    cargo = "Dentista"
+    fecha nacimiento "xx/xx/xxxx"
+    cantidad cargas = 0
+    plan salud = Isapre
+    nombre = "Enrique"
+    apellido paterno = "Briones"
+    apellido matenro = "Arcos"
+}
+
+Object ": Boleta" as blt{
+    numero = 1200
+    fecha emision = "12/05/2018"
+    valor = 30000
+    reserva = 1005
+    metodoPago = "Efectivo"
+}
+
+Object ": Domicilio" as dom{
+    nombre calle = "Santa Beatriz"
+    nro = "71"
+    tipo domicilio = "Casa Central"
+    rut = "xxxxxxxx-x"
+    comuna = "Providencia - RM"
+}
+
+Object ": Domicilio" as dom1{
+    nombre calle = "Condor"
+    nro = "1394"
+    tipo_domicilio = "Departamento"
+    rut = "19133540-6"
+    comuna = "Santiago - RM"
+}
+
+Object ": Usuario" as usrprov{
+    nombre usuario = "den.america"
+    contraseña = "*********"
+    rut = "xxxxxxxx-x"
+    contraseña cambiada = false
+    tipo usuario = "Proveedor"
+}
+
+Object ": Usuario" as usremp{
+    nombre usuario = "enri.briones"
+    constraseña = "*********"
+    rut = "15603637-4"
+    contraseña cambiada = false
+    tipo usuario = "Empleado"
+}
+
+cli *-- ctc
+cli *-- dom1
+usr *-- cli
+srv o-- emp
+usremp *-- emp
+rsv *-- srv
+rsv *-- cli
+blt *-- rsv
+prd *-- prov
+prov *-- ctprov
+usrprov *-- prov
+srv o-- prd
+prov *-- dom
+@enduml
