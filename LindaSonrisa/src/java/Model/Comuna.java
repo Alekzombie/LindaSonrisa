@@ -38,5 +38,11 @@ public class Comuna {
     public void setNroRegion(int nroRegion) {
         this.nroRegion = nroRegion;
     }
+    
+      @Override
+    public String toString() {
+        return "Comuna{" + "id=" + id + ", nombre=" + nombre + ", nroRegion=" + nroRegion + '}';
+    }
+    
 
 }

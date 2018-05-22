@@ -18,7 +18,7 @@ public class PersonaController {
 
     //INSERTS
     private static String INSERT_PERSONA = "INSERT INTO PERSONA VALUES(?,?)";
-    private static String INSERT_NATURAL = "INSERT INTO NATURAL VALUES(?,?,?,?,?,?,?)";
+    private static String INSERT_NATURAL = "INSERT INTO NATURAL VALUES(?,?,?,?,?,'NONE','NONE')";
     private static String INSERT_JURIDICA = "INSERT INTO JURIDICA VALUES(?,?)";
     private static String INSERT_DOMICILIO = "INSERT INTO DOMICILIO VALUES (?,?,?,?,?,?)";
     private static String INSERT_CONTACTO = "INSERT INTO CONTACTO VALUES (?,?,?,?)";
@@ -37,7 +37,7 @@ public class PersonaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("ERROR AL AGREGAR PERSONA. " + ex.getMessage());
+            System.out.println("ERROR EN PERSONACONTROLLER.AgregarPersona " + ex.getMessage());
         }
         return false;
     }
@@ -71,7 +71,7 @@ public class PersonaController {
                 stmt.setString(1, natural.getRut());
                 stmt.setString(2, natural.getApellidoPaterno());
                 stmt.setString(3, natural.getApellidoMaterno());
-                stmt.setDate(4, natural.getFechaNacimiento());
+                stmt.setDate(4, new java.sql.Date(natural.getFechaNacimiento().getTime()));
                 stmt.setInt(5, natural.getCantidadCargas());
 //                PlanSalud auxps = natural.getPlanSalud();
 //                if (auxps instanceof Fonasa) {
@@ -86,7 +86,7 @@ public class PersonaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("ERROR AL AGREGAR PERSONA NATURAL. " + ex.getMessage());
+            System.out.println("ERROR EN PERSONACONTROLLER.AgregarNatural " + ex.getMessage());
         }
         return false;
     }

@@ -5,8 +5,14 @@
  */
 package servlet;
 
-import Controller.ServicioController;
-import Model.Servicio;
+import Controller.ComunaController;
+import Controller.UsuarioController;
+import Model.Comuna;
+import Model.Contacto;
+import Model.Domicilio;
+import Model.Persona;
+import Model.PersonaNatural;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lmerino
  */
-@WebServlet(name = "modificarServicio", urlPatterns = {"/modificarServicio"})
-public class modificarServicio extends HttpServlet {
+@WebServlet(name = "modificarInfoUsuario", urlPatterns = {"/modificarInfoUsuario"})
+public class modificarInfoUsuario extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,28 +41,47 @@ public class modificarServicio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           Servicio dto = new Servicio();
+           
+            PersonaNatural prs = new PersonaNatural() {};
+            prs.setRut(request.getParameter("txtRut"));
             
-            String servicio = request.getParameter("cmbServicio");
-            int id = new ServicioController().nombreToId(servicio);
-            dto.setId(id);
+            Contacto cnt = new Contacto() {};
+            cnt.setCorreoElectronico(request.getParameter("txtMail"));
+            cnt.setTelefonoFijo(request.getParameter("txtTelefonoFijo"));
+            cnt.setTelefonoMovil(request.getParameter("txtTelefonoMovil"));
+            cnt.setPersona(prs);
             
+            prs.setContacto(cnt);
             
-            int precio = Integer.parseInt(request.getParameter("txtPrecio"));
-            int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
-            int disponible = Integer.parseInt(request.getParameter("rdDisponible"));
+            Domicilio dmc = new Domicilio();
+            dmc.setNombreCalle(request.getParameter("txtNombreCalle"));
+            dmc.setNro_calle(Integer.parseInt(request.getParameter("txtNroCalle")));
+            dmc.setCasa_depto(Integer.parseInt(request.getParameter("rdTipoVivienda")));
+            dmc.setNro_depto(request.getParameter("txtNroDepto"));
+            String nombreComuna = request.getParameter("cmbComuna");
+            Comuna comuna = new ComunaController().nombreToId(nombreComuna);
+            dmc.setComuna(comuna); 
+            dmc.getComuna().setNombre(nombreComuna);
+            dmc.setPersona(prs);          
+ 
+            System.out.println(prs.toString());
+            System.out.println(dmc.toString());
             
-            dto.setPrecio(precio);
-            dto.setDuracion(duracion);
-            dto.setDisponible(disponible);
+//            if (new UsuarioController().modificarNatural(prs)) {
+//                request.setAttribute("mensaje", "Modificacion Existosa");
+//            } else {
+//                request.setAttribute("mensaje", "No hubo Modificacion");
+//            }
+//
+//            if (new UsuarioController().modificarDomicilio(dmc)) {
+//                request.setAttribute("mensaje", "Modificacion Existosa");
+//            } else {
+//                request.setAttribute("mensaje", "No hubo Modificacion");
+//            }
+            
+            request.getRequestDispatcher("paginas/ModificarInformacionUsuario.jsp").forward(request, response);
 
-            if (new ServicioController().modificarServicio(dto)) {
-                request.setAttribute("mensaje", "Modificacion Servicio Existoso");
-            } else {
-                request.setAttribute("mensaje", "No hubo Modificacion del Servicio");
-            }
-
-            request.getRequestDispatcher("paginas/ModificarServicio.jsp").forward(request, response);
+            
         }
     }
 

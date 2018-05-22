@@ -36,32 +36,29 @@ public class agregarServicio extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String mensaje = "";
-            
-          int id = Integer.parseInt(request.getParameter("txtId")); 
-          if (!new ServicioController().existeRegistro(id)) {   
-           Servicio dto = new Servicio();
-           
-            String descripcion = request.getParameter("txtDescripcion");
-            int precio = Integer.parseInt(request.getParameter("txtPrecio"));
-            int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
-           dto.setId(id);
-           dto.setDescripcion(descripcion);
-            dto.setPrecio(precio);
-            dto.setDuracion(duracion);
 
-            
-            
-   
-            if (new ServicioController().agregarServicio(dto)) {
-                  mensaje = "SERVICIO REGISTRADO EXITOSAMENTE";
+           // int id = Integer.parseInt(request.getParameter("txtId"));
+           
+           String nombre = request.getParameter("txtDescripcion");
+            if (!new ServicioController().existeRegistro(nombre)) {
+                Servicio dto = new Servicio();
+
+                int precio = Integer.parseInt(request.getParameter("txtPrecio"));
+                int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
+                dto.setDescripcion(nombre);
+                dto.setPrecio(precio);
+                dto.setDuracion(duracion);
+
+                if (new ServicioController().agregarServicio(dto)) {
+                    mensaje = "SERVICIO REGISTRADO EXITOSAMENTE";
+                } else {
+                    mensaje = "SERVICIO NO REGISTRADO";
+                }
             } else {
-                  mensaje = "SERVICIO NO REGISTRADO";
+                mensaje = "SERVICIO NO REGISTRADO";
             }
-          }else{
-               mensaje = "SERVICIO NO REGISTRADO";
-          }        
             request.setAttribute("mensaje", mensaje);
-            request.getRequestDispatcher("/pages/RegistrarServicio.jsp").forward(request, response);
+            request.getRequestDispatcher("/paginas/RegistrarServicio.jsp").forward(request, response);
         }
     }
 

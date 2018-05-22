@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,14 +34,11 @@ th, td {
 </style>
     </head>
     <body>
+        <h3>Ingrese Nuevo Servicio</h3>
          <form action="/LindaSonrisa/agregarServicio" method="POST">
             <section class="content">
             <table border="0">
                 <tbody>
-                    <tr>
-                        <td>Ingrese Codigo</td>
-                        <td><input type="text" name="txtId" value="" /></td>
-                    </tr>
                     <tr>
                         <td>Nombre Servicio</td>
                         <td><input type="text" name="txtDescripcion" value="" /></td>
@@ -60,12 +58,12 @@ th, td {
                     </tr>
                 </tbody>
             </table>
-            <input type="submit" value="Registrar" name="btnRegistra" />
+            <input type="submit" value="Registrar" name="btnRegistrar" />
         </section>  
         </form>
-         <c:if test="${mensaje!=null}">
+        <c:if test="${mensaje!=null}">
             <script>
-                alert("aaaa");
+                alert("${mensaje}");
             </script>
         </c:if>
     </body>

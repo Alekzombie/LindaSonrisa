@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td>Precio</td>
-                        <td><input type="text" name="txtPrecio" placeholder="$0" value="" /></td>
+                        <td><input type="text" name="txtPrecio" placeholder="$0" value="" required="" /></td>
                     </tr>
                     <tr>
                         <td>Modulos</td>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>Disponible</td>
-                        <td>Sí<input type="radio" name="rdDisponible" value="1" />No<input type="radio" name="rdDisponible" value="0" /></td>                   
+                        <td>Sí<input type="radio" name="rdDisponible" value="1" checked="" />No<input type="radio" name="rdDisponible" value="0" /></td>                   
                     </tr>
                 </tbody>
             </table>

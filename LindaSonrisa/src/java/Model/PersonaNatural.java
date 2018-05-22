@@ -1,13 +1,13 @@
 package Model;
 
 import Model.PlanSalud.PlanSalud;
-import java.sql.Date;
+import java.util.Date;
 
 abstract public class PersonaNatural extends Persona {
 
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private Date fechaNacimiento;
+    private java.util.Date fechaNacimiento;
     private int cantidadCargas;
     private PlanSalud planSalud;
 

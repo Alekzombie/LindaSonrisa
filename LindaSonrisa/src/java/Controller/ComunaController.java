@@ -71,7 +71,7 @@ public class ComunaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error al agregar Empleado. " + ex.getMessage());
+            System.out.println("Error en COMUNACONTROLLER.listarComunas " + ex.getMessage());
         }
         return lista;
     }

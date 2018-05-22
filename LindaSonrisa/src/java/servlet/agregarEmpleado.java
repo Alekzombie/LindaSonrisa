@@ -5,10 +5,19 @@
  */
 package servlet;
 
-import Controller.ServicioController;
-import Model.Servicio;
+import Controller.PersonaController;
+import Controller.UsuarioController;
+import Model.Persona;
+import Model.PersonaNatural;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lmerino
  */
-@WebServlet(name = "modificarServicio", urlPatterns = {"/modificarServicio"})
-public class modificarServicio extends HttpServlet {
+@WebServlet(name = "agregarEmpleado", urlPatterns = {"/agregarEmpleado"})
+public class agregarEmpleado extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,28 +44,44 @@ public class modificarServicio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           Servicio dto = new Servicio();
+            request.setCharacterEncoding("UTF-8");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-d");
+            String mensaje = "";
             
-            String servicio = request.getParameter("cmbServicio");
-            int id = new ServicioController().nombreToId(servicio);
-            dto.setId(id);
-            
-            
-            int precio = Integer.parseInt(request.getParameter("txtPrecio"));
-            int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
-            int disponible = Integer.parseInt(request.getParameter("rdDisponible"));
-            
-            dto.setPrecio(precio);
-            dto.setDuracion(duracion);
-            dto.setDisponible(disponible);
+            PersonaNatural persona = new PersonaNatural() {
+            };
+            persona.setRut(request.getParameter("txtRut"));
+            persona.setNombre(request.getParameter("txtNombre"));
+            persona.setApellidoPaterno(request.getParameter("txtPaterno"));
+            persona.setApellidoMaterno(request.getParameter("txtMaterno"));
 
-            if (new ServicioController().modificarServicio(dto)) {
-                request.setAttribute("mensaje", "Modificacion Servicio Existoso");
+            persona.setFechaNacimiento(df.parse(request.getParameter("calFechaNacimiento")));
+            persona.setCantidadCargas(Integer.parseInt(request.getParameter("txtCargas")));
+
+            Usuario usuario = new Usuario();
+            usuario.setNombreUsuario(request.getParameter("txtNombreUsuario"));
+            usuario.setPassword(request.getParameter("txtPassword"));
+            usuario.setRutPersona(request.getParameter("txtRut"));
+            usuario.setTipoUsuario(request.getParameter("SS_TipoUsuario"));
+            
+            System.out.println(persona.toString());
+
+            if (new PersonaController().agregarNatural(persona)) {
+                mensaje = "EMPLEADO REGISTRADO";
             } else {
-                request.setAttribute("mensaje", "No hubo Modificacion del Servicio");
+                mensaje = "EMPLEADO NO REGISTRADO";
+            }
+            if (new UsuarioController().agregarUsuario(usuario)) {
+                mensaje = "USUARIO REGISTRADO";
+            } else {
+                mensaje = "USUARIO NO REGISTRADO";
             }
 
-            request.getRequestDispatcher("paginas/ModificarServicio.jsp").forward(request, response);
+            request.setAttribute("mensaje", mensaje);
+            request.getRequestDispatcher("/paginas/RegistrarEmpleado.jsp").forward(request, response);
+
+        } catch (ParseException ex) {
+            Logger.getLogger(agregarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

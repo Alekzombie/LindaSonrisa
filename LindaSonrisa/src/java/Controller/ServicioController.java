@@ -14,19 +14,18 @@ import java.util.ArrayList;
  * @author lmerino
  */
 public class ServicioController {
-    
-      private static String INSERT_SERVICE = "INSERT INTO servicio (id_servicio,dsc_servicio,precio_servico,duracion,disponible) VALUES(?,?,?,?,1)";
+
+    private static String INSERT_SERVICE = "INSERT INTO servicio (id_servicio,dsc_servicio,precio_servico,duracion,disponible) VALUES(servicio_seq.NEXTVAL,?,?,?,1)";
 //     private static String MODIFY_SERVICE = "UPDATE servicio SET dsc_servicio=? precio_servicio=? WHERE id_servicio=? ";
     private static String MODIFY_SERVICE = "UPDATE servicio SET precio_servico=? ,duracion=?,disponible=? WHERE id_servicio=? ";
-    private static String VERIFICAR_REGISTRO ="SELECT * FROM SERVICIO WHERE id_servicio=?";
-    
-     public static boolean agregarServicio(Servicio servicio) {
+    private static String VERIFICAR_REGISTRO = "SELECT * FROM SERVICIO WHERE id_servicio=?";
+
+    public static boolean agregarServicio(Servicio servicio) {
         try (Connection con = Oracle.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(INSERT_SERVICE)) {
-                stmt.setInt(1,servicio.getId());
-                stmt.setString(2, servicio.getDescripcion());
-                stmt.setInt(3, servicio.getPrecio());
-                stmt.setInt(4, servicio.getDuracion());
+                stmt.setString(1, servicio.getDescripcion());
+                stmt.setInt(2, servicio.getPrecio());
+                stmt.setInt(3, servicio.getDuracion());
                 if (stmt.executeUpdate() == 1) {
                     return true;
                 }
@@ -36,8 +35,8 @@ public class ServicioController {
         }
         return false;
     }
-     
-     public static boolean modificarServicio(Servicio servicio) {
+
+    public static boolean modificarServicio(Servicio servicio) {
         try (Connection con = Oracle.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(MODIFY_SERVICE)) {
                 stmt.setInt(1, servicio.getPrecio());
@@ -52,8 +51,8 @@ public class ServicioController {
             System.out.println("ERROR EN SERVICIOCONTROLLER.modificarServicio " + ex.getMessage());
         }
         return false;
-    } 
-     
+    }
+
     public String idToNombre(int id) {
         String nombre = "";
         try (Connection con = Oracle.getConnection()) {
@@ -72,8 +71,8 @@ public class ServicioController {
         }
         return nombre;
     }
-    
-      public int nombreToId(String nombre) {
+
+    public int nombreToId(String nombre) {
         int id = 0;
         try (Connection con = Oracle.getConnection()) {
             String query = "select id_servicio from servicio where dsc_servicio=?";
@@ -91,7 +90,7 @@ public class ServicioController {
         }
         return id;
     }
-      
+
     public ArrayList<String> listarServicios() {
         ArrayList<String> lista = new ArrayList<>();
         String query = "select dsc_servicio from servicio order by dsc_servicio asc";
@@ -109,11 +108,11 @@ public class ServicioController {
         }
         return lista;
     }
-    
-        public static boolean existeRegistro(int id) {
+
+    public static boolean existeRegistro(String nombre) {
         try (Connection con = Oracle.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(VERIFICAR_REGISTRO)) {
-                stmt.setInt(1, id);
+                stmt.setString(1, nombre);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     return true;
