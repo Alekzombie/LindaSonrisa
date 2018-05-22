@@ -1,0 +1,28 @@
+.lista
+{
+    background: #eee;
+    min-width: 60%;
+    max-width: 70%;
+    padding: 5px;
+    list-style-type: none;
+}
+.lista .lista-item
+{
+    background: #fff;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lista .lista-item .codigo
+{
+    color: #0cc;
+}
+.lista .lista-item .btnVer
+{
+    background: #0cc;
+    color:#fff;
+    border:none;
+    padding:3px;
+    width:30px;
+}

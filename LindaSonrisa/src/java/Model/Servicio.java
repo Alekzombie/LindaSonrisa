@@ -27,6 +27,10 @@ public class Servicio {
     public int getId() {
         return id;
     }
+    
+     public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * @return the descripcion
@@ -49,9 +53,7 @@ public class Servicio {
         return precio;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+   
 
     /**
      * @param precio the precio to set

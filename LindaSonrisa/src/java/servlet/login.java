@@ -5,8 +5,8 @@
  */
 package servlet;
 
-import Controller.ServicioController;
-import Model.Servicio;
+import Controller.UsuarioController;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,13 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author lmerino
+ * @author hozonov
  */
-@WebServlet(name = "agregarServicio", urlPatterns = {"/agregarServicio"})
-public class agregarServicio extends HttpServlet {
+@WebServlet(name = "login", urlPatterns = {"/login"})
+public class login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,33 +36,46 @@ public class agregarServicio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String mensaje = "";
-            
-          int id = Integer.parseInt(request.getParameter("txtId")); 
-          if (!new ServicioController().existeRegistro(id)) {   
-           Servicio dto = new Servicio();
-           
-            String descripcion = request.getParameter("txtDescripcion");
-            int precio = Integer.parseInt(request.getParameter("txtPrecio"));
-            int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
-           dto.setId(id);
-           dto.setDescripcion(descripcion);
-            dto.setPrecio(precio);
-            dto.setDuracion(duracion);
-
-            
-            
-   
-            if (new ServicioController().agregarServicio(dto)) {
-                  mensaje = "SERVICIO REGISTRADO EXITOSAMENTE";
-            } else {
-                  mensaje = "SERVICIO NO REGISTRADO";
+            String action = request.getParameter("action");
+            if(action.equals("login")){
+                String mensaje = "";                
+                String user = request.getParameter("txtUsuario");
+                String pass = new util.Encriptacion().Encriptar(request.getParameter("txtContrasena"));
+                Usuario usuario = new UsuarioController().buscar(user);
+                if (usuario!=null && usuario.getPassword().equals(pass)) {             
+                    HttpSession sesion = request.getSession();
+                    sesion.setAttribute("usuario", usuario);
+                    String home ="";
+                    String perfil = usuario.getTipoUsuario();
+                    switch (perfil) {
+                        case "ADMIN":
+                            home = "/LindaSonrisa/pages/homeAdministrador.jsp";
+                            break;
+                        case "SCTR":
+                            home = "/LindaSonrisa/pages/homeSecretaria.jsp";
+                            break;
+                        case "MDC":
+                            home = "/LindaSonrisa/pages/homeMedico.jsp";
+                            break;
+                        case "CLT":
+                            home = "/LindaSonrisa/pages/homeCliente.jsp";
+                            break;
+                        case "PRV":
+                            home = "/LindaSonrisa/pages/homeProveedor.jsp";
+                            break;
+                    }
+                    sesion.setAttribute("perfil", perfil);
+                    sesion.setAttribute("home", home);
+                    response.sendRedirect(home);
+                } else {
+                    mensaje = "Datos no coinciden";
+                    request.setAttribute("mensaje", mensaje);
+                    request.getRequestDispatcher("/pages/Login.jsp").forward(request, response);
+                }               
             }
-          }else{
-               mensaje = "SERVICIO NO REGISTRADO";
-          }        
-            request.setAttribute("mensaje", mensaje);
-            request.getRequestDispatcher("/pages/RegistrarServicio.jsp").forward(request, response);
+            if(action.equals("signin")){
+                response.sendRedirect("/LindaSonrisa/pages/crearUsuario.jsp");
+            }
         }
     }
 

@@ -29,7 +29,7 @@
                     </div>
                     <ul class="module-content">  
                         <li class="module-option"><a class="link" href="#">Reservar Hora</a></li>                      
-                        <li class="module-option"><a class="link" href="#">Ver Reservas Pedidas</a></li>
+                        <li class="module-option"><a class="link" href="/LindaSonrisa/pages/verReservasCliente.jsp">Ver Reservas Pedidas</a></li>
                         <li class="module-option"><a class="link" href="#">Ver Boletas de Servicios</a></li>
                     </ul>
                 </div>

@@ -3,23 +3,19 @@ package Model;
 public class Reserva {
     private int id;
     private String estadoReserva;
-    private int moduloTiempo;
+    private String moduloTiempo;
     private Servicio servicio;
     private Cliente cliente;
 
-    public Reserva(String estadoReserva, int moduloTiempo, Servicio servicio, Cliente cliente) {
+    public Reserva(String estadoReserva, String moduloTiempo, Servicio servicio, Cliente cliente) {
         this.estadoReserva = estadoReserva;
         this.moduloTiempo = moduloTiempo;
         this.servicio = servicio;
         this.cliente = cliente;
     }
 
-    public Reserva(int id, String estadoReserva, int moduloTiempo, Servicio servicio, Cliente cliente) {
-        this.id = id;
-        this.estadoReserva = estadoReserva;
-        this.moduloTiempo = moduloTiempo;
-        this.servicio = servicio;
-        this.cliente = cliente;
+    public Reserva() {
+        
     }
 
     /**
@@ -29,6 +25,10 @@ public class Reserva {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }    
+    
     /**
      * @return the estadoReserva
      */
@@ -46,14 +46,14 @@ public class Reserva {
     /**
      * @return the moduloTiempo
      */
-    public int getModuloTiempo() {
+    public String getModuloTiempo() {
         return moduloTiempo;
     }
 
     /**
      * @param moduloTiempo the moduloTiempo to set
      */
-    public void setModuloTiempo(int moduloTiempo) {
+    public void setModuloTiempo(String moduloTiempo) {
         this.moduloTiempo = moduloTiempo;
     }
 

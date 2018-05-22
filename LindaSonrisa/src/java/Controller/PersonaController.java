@@ -73,14 +73,14 @@ public class PersonaController {
                 stmt.setString(3, natural.getApellidoMaterno());
                 stmt.setDate(4, natural.getFechaNacimiento());
                 stmt.setInt(5, natural.getCantidadCargas());
-                PlanSalud auxps = natural.getPlanSalud();
-                if (auxps instanceof Fonasa) {
-                    stmt.setString(7, ((Grupo) auxps).getId());
-                    stmt.setString(6, "NONE");
-                } else {
-                    stmt.setString(7, "NONE");
-                    stmt.setString(6, ((Isapre) auxps).getId());
-                }
+//                PlanSalud auxps = natural.getPlanSalud();
+//                if (auxps instanceof Fonasa) {
+//                    stmt.setString(7, ((Grupo) auxps).getId());
+//                    stmt.setString(6, "NONE");
+//                } else {
+//                    stmt.setString(7, "NONE");
+//                    stmt.setString(6, ((Isapre) auxps).getId());
+//                }
                 if (stmt.executeUpdate() > 1) {
                     return true;
                 }
@@ -162,13 +162,13 @@ public class PersonaController {
     }
     
     
-    public static boolean agregarContacto(Persona contacto){
+    public static boolean agregarContacto(Persona persona){
         try (Connection con = Oracle.getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(INSERT_CONTACTO)) {
-                stmt.setString(1, contacto.getContacto().getCorreoElectronico());
-                stmt.setString(2,contacto.getContacto().getTelefonoFijo());
-                stmt.setString(3, contacto.getContacto().getTelefonoMovil());
-                stmt.setString(4, contacto.getRut());
+                stmt.setString(1, persona.getContacto().getCorreoElectronico());
+                stmt.setString(2,persona.getContacto().getTelefonoFijo());
+                stmt.setString(3, persona.getContacto().getTelefonoMovil());
+                stmt.setString(4, persona.getRut());
                 if (stmt.executeUpdate() == 1) {
                     return true;
                 }

@@ -78,20 +78,25 @@ public class UsuarioController {
     }
      
     public static Usuario buscar(String username){
-        Usuario user = new Usuario();
+        
         try(Connection con = Oracle.getConnection()){
             try(PreparedStatement stmt = con.prepareStatement(SELECT_USER)){
                 stmt.setString(1, username);
                 ResultSet rs = stmt.executeQuery();
                 if(rs.next()){
-                    user = new Usuario(rs.getString("nombre_usuario"), rs.getString("contraseña"), rs.getString("rut"), rs.getBoolean("cambiar_contraseña"), rs.getString("id_tipo_usuario"));
+                    Usuario user = new Usuario();
+                    user.setNombreUsuario(rs.getString("nombre_usuario"));
+                    user.setPassword(rs.getString("contraseña"));
+                    user.setCambiarPassword(rs.getBoolean("cambiar_contraseña"));
+                    user.setRutPersona(rs.getString("rut"));
+                    user.setTipoUsuario(rs.getString("id_tipo_usuario"));
                     return user;
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Error en UsuarioController.buscar. "+ex.getMessage());
         }
-        return user;
+        return null;
     }
     
         public static boolean modificarContacto(Persona usuario) {
@@ -139,8 +144,10 @@ public class UsuarioController {
             try (PreparedStatement stmt = con.prepareStatement(VERIFY_USER)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
-                stmt.execute();
-                return true;
+                ResultSet rs = stmt.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
             }
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Error en UsuarioController.verificar. " + ex.getMessage());

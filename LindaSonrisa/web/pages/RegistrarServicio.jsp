@@ -65,7 +65,7 @@ th, td {
         </form>
          <c:if test="${mensaje!=null}">
             <script>
-                alert("${mensaje}");
+                alert("aaaa");
             </script>
         </c:if>
     </body>

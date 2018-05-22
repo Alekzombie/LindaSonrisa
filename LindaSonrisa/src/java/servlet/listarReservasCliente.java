@@ -5,22 +5,25 @@
  */
 package servlet;
 
-import Controller.ServicioController;
-import Model.Servicio;
+import Controller.ReservaController;
+import Model.Reserva;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author lmerino
+ * @author hozonov
  */
-@WebServlet(name = "agregarServicio", urlPatterns = {"/agregarServicio"})
-public class agregarServicio extends HttpServlet {
+@WebServlet(name = "listarReservasCliente", urlPatterns = {"/listarReservasCliente"})
+public class listarReservasCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,33 +38,11 @@ public class agregarServicio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String mensaje = "";
-            
-          int id = Integer.parseInt(request.getParameter("txtId")); 
-          if (!new ServicioController().existeRegistro(id)) {   
-           Servicio dto = new Servicio();
-           
-            String descripcion = request.getParameter("txtDescripcion");
-            int precio = Integer.parseInt(request.getParameter("txtPrecio"));
-            int duracion = Integer.parseInt(request.getParameter("cmbModulo"));
-           dto.setId(id);
-           dto.setDescripcion(descripcion);
-            dto.setPrecio(precio);
-            dto.setDuracion(duracion);
-
-            
-            
-   
-            if (new ServicioController().agregarServicio(dto)) {
-                  mensaje = "SERVICIO REGISTRADO EXITOSAMENTE";
-            } else {
-                  mensaje = "SERVICIO NO REGISTRADO";
-            }
-          }else{
-               mensaje = "SERVICIO NO REGISTRADO";
-          }        
-            request.setAttribute("mensaje", mensaje);
-            request.getRequestDispatcher("/pages/RegistrarServicio.jsp").forward(request, response);
+            HttpSession sesion = request.getSession();
+            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+            ArrayList<Reserva> listaReservas = new ReservaController().buscarReservasPorRutCliente(usuario.getRutPersona());
+            sesion.setAttribute("listaReservas", listaReservas);
+            response.sendRedirect("/LindaSonrisa/pages/verReservasCliente.jsp");
         }
     }
 

@@ -48,6 +48,8 @@ body{
 {
     font-size: .75rem;
     color: darkred;
+    border:none;
+    background: transparent;
 }
 .nav .user .user-logout:hover
 {
