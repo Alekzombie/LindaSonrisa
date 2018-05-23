@@ -5,25 +5,20 @@
  */
 package servlet;
 
-import Controller.ReservaController;
-import Model.Reserva;
-import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author hozonov
  */
-@WebServlet(name = "listarReservasCliente", urlPatterns = {"/listarReservasCliente"})
-public class listarReservasCliente extends HttpServlet {
+@WebServlet(name = "confirmarReserva", urlPatterns = {"/confirmarReserva"})
+public class confirmarReserva extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,14 +33,8 @@ public class listarReservasCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession sesion = request.getSession();
-            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
-            if (sesion.getAttribute("listaReservas")!=null){
-                sesion.setAttribute("listaReservas", null);
-            }
-            ArrayList<Reserva> listaReservas = new ReservaController().buscarReservasPorRutCliente(usuario.getRutPersona());
-            sesion.setAttribute("listaReservas", listaReservas);
-            response.sendRedirect("/LindaSonrisa/pages/verReservasCliente.jsp");
+            int reservaConfirmar = Integer.parseInt(request.getParameter("txtReservaConfirmar")); 
+            
         }
     }
 

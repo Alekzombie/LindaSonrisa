@@ -22,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hozonov
  */
-@WebServlet(name = "listarReservasCliente", urlPatterns = {"/listarReservasCliente"})
-public class listarReservasCliente extends HttpServlet {
+@WebServlet(name = "listarReservasSecretaria", urlPatterns = {"/listarReservasSecretaria"})
+public class listarReservasSecretaria extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,13 +39,13 @@ public class listarReservasCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession sesion = request.getSession();
-            Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+            String rutCliente = request.getParameter("txtRutCliente");
             if (sesion.getAttribute("listaReservas")!=null){
                 sesion.setAttribute("listaReservas", null);
             }
-            ArrayList<Reserva> listaReservas = new ReservaController().buscarReservasPorRutCliente(usuario.getRutPersona());
+            ArrayList<Reserva> listaReservas = new ReservaController().buscarReservasPorRutCliente(rutCliente);
             sesion.setAttribute("listaReservas", listaReservas);
-            response.sendRedirect("/LindaSonrisa/pages/verReservasCliente.jsp");
+            response.sendRedirect("/LindaSonrisa/pages/buscarReservas.jsp");
         }
     }
 
