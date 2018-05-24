@@ -16,14 +16,14 @@ public class ReservaController {
     public static ArrayList<Reserva> buscarReservasPorRutCliente(String rut){
         ArrayList lista = new ArrayList();
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement("select * from reserva where rut_cliente=?")) {
+            try (PreparedStatement stmt = con.prepareStatement("select * from reserva join tiempo_reserva using (id_reserva) where rut_cliente=?")) {
                 stmt.setString(1, rut);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Reserva reserva = new Reserva();
                     reserva.setId(rs.getInt("id_reserva"));
                     reserva.setEstadoReserva(rs.getString("estado_reserva"));
-                    reserva.setModuloTiempo(rs.getString("id_modulo"));
+                    reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));  // set modulo inicio para recuperar hora inicio
                     Cliente cliente = new Cliente();
                     cliente.setRut(rs.getString("rut_cliente"));
                     reserva.setCliente(cliente);
@@ -34,7 +34,7 @@ public class ReservaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.agregar " + ex.getMessage());
+            System.out.println("Error en ReservaController.buscarReservasPorRutCliente " + ex.getMessage());
         }
         return lista;
     }
@@ -42,13 +42,13 @@ public class ReservaController {
     public static ArrayList<Reserva> buscarReservasPorConfirmar(){
         ArrayList lista = new ArrayList();
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement("select * from reserva where estado_reserva = 'POR CONFIRMAR'")) {
+            try (PreparedStatement stmt = con.prepareStatement("select * from reserva join tiempo_reserva using (id_reserva) where estado_reserva = 'POR CONFIRMAR'")) {
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Reserva reserva = new Reserva();
                     reserva.setId(rs.getInt("id_reserva"));
                     reserva.setEstadoReserva(rs.getString("estado_reserva"));
-                    reserva.setModuloTiempo(rs.getString("id_modulo"));
+                    reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));
                     Cliente cliente = new Cliente();
                     cliente.setRut(rs.getString("rut_cliente"));
                     reserva.setCliente(cliente);
@@ -59,21 +59,21 @@ public class ReservaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.agregar " + ex.getMessage());
+            System.out.println("Error en ReservaController.buscarReservasPorConfirmar " + ex.getMessage());
         }
         return lista;
     }
     
     public static Reserva buscarReservaPorId(int id){
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement("select * from reserva where id_reserva=?")) {
+            try (PreparedStatement stmt = con.prepareStatement("select * from reserva join tiempo_reserva using (id_reserva) where id_reserva = ? and ROWNUM=1")) {
                 stmt.setInt(1, id);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Reserva reserva = new Reserva();
                     reserva.setId(rs.getInt("id_reserva"));
                     reserva.setEstadoReserva(rs.getString("estado_reserva"));
-                    reserva.setModuloTiempo(rs.getString("id_modulo"));
+                    reserva.setModuloTiempo(rs.getString("id_modulo_tiempo")); // set modulo inicio para recuperar hora inicio
                     Cliente cliente = new Cliente();
                     cliente.setRut(rs.getString("rut_cliente"));
                     reserva.setCliente(cliente);
@@ -84,7 +84,7 @@ public class ReservaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.agregar " + ex.getMessage());
+            System.out.println("Error en ReservaController.buscarReservaPorId " + ex.getMessage());
         }
         return null;
     }
@@ -99,7 +99,7 @@ public class ReservaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.agregar " + ex.getMessage());
+            System.out.println("Error en ReservaController.confirmarReserva " + ex.getMessage());
         }
         return false;
     }
@@ -115,7 +115,7 @@ public class ReservaController {
                 }
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.agregar " + ex.getMessage());
+            System.out.println("Error en ReservaController.anularReserva " + ex.getMessage());
         }
         return false;
     }

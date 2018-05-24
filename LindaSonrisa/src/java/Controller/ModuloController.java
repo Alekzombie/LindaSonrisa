@@ -28,8 +28,37 @@ public class ModuloController {
                 }                
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error en ClienteController.buscarCliente " + ex.getMessage());
+            System.out.println("Error en ModuloController.buscarModuloPorId " + ex.getMessage());
         }
         return null;
+    }
+    public static ArrayList<String> listaModulosAnular(int idReserva){
+        ArrayList lista = new ArrayList();
+        try (Connection con = Oracle.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement("select id_modulo from modulo_tiempo m join tiempo_reserva t on m.id_modulo=t.id_modulo_tiempo where id_reserva = ?")) {
+                stmt.setInt(1, idReserva);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    lista.add(rs.getString("id_modulo"));
+                }                
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Error en ModuloController.listaModulosAnular " + ex.getMessage());
+        }
+        return lista;
+    }
+    public static boolean hacerDisponible(String idModulo){
+        ArrayList lista = new ArrayList();
+        try (Connection con = Oracle.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement("update modulo_tiempo set estado_modulo='DISPONIBLE' where id_modulo = ?")) {
+                stmt.setString(1, idModulo);
+                if(stmt.executeUpdate()==1){
+                    return true;
+                }              
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Error en ModuloController.hacerDisponible " + ex.getMessage());
+        }
+        return false;
     }
 }

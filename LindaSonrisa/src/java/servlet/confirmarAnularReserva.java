@@ -12,13 +12,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Controller.ReservaController;
+import Controller.ModuloController;
+import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author hozonov
  */
-@WebServlet(name = "confirmarReserva", urlPatterns = {"/confirmarReserva"})
-public class confirmarReserva extends HttpServlet {
+@WebServlet(name = "confirmarAnularReserva", urlPatterns = {"/confirmarAnularReserva"})
+public class confirmarAnularReserva extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,8 +37,25 @@ public class confirmarReserva extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int reservaConfirmar = Integer.parseInt(request.getParameter("txtReservaConfirmar")); 
-            
+            int codigoReserva = Integer.parseInt(request.getParameter("txtCodigoReserva"));
+            String action = request.getParameter("action");
+            if(action.equals("confirmar")){
+                if(new ReservaController().confirmarReserva(codigoReserva)){
+                    HttpSession sesion = request.getSession();
+                    sesion.setAttribute("mensajeConfirmarAnular", "La reserva N°"+codigoReserva+" ha sido Confirmada");
+                }
+            }
+            if(action.equals("anular")){
+                if(new ReservaController().anularReserva(codigoReserva)){
+                    ArrayList<String> lista = new ModuloController().listaModulosAnular(codigoReserva);
+                    for(String id : lista){
+                        new ModuloController().hacerDisponible(id);
+                    }
+                    HttpSession sesion = request.getSession();
+                    sesion.setAttribute("mensajeConfirmarAnular", "La reserva N°"+codigoReserva+" ha sido Anulada");
+                }
+            }
+            response.sendRedirect("/LindaSonrisa/pages/confirmarReserva.jsp");
         }
     }
 

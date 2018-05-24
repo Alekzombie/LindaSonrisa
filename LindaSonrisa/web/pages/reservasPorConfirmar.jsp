@@ -42,11 +42,12 @@
                 <c:if test="${listaReservasPorConfirmar!=null}">
                     <ul class="lista">
                         <c:forEach var="reserva" items="${listaReservasPorConfirmar}">
-                            <form action="/LindaSonrisa/detalleReserva" method="POST">
+                            <form action="/LindaSonrisa/confirmarAnularReserva" method="POST">
                                 <li class="lista-item">
                                     <span class="codigo">Reserva N°<c:out value="${reserva.getId()}"/></span>
                                     <input type="hidden" name="txtCodigoReserva" value="<c:out value="${reserva.getId()}"/>" />
-                                    <input class="btnVer" type="submit" value="Ver" />
+                                    <button name="action" value="confirmar" type="submit">Confirmar</button> 
+                                    <button name="action" value="anular" type="submit">Anular</button>
                                 </li>    
                             </form>
                         </c:forEach>
@@ -60,6 +61,11 @@
                 window.onload = function(){
                     document.forms['fetchReservasPorConfirmar'].submit();
                 }
+            </script>
+        </c:if>
+        <c:if test="${mensajeConfirmarAnular!=null}">
+            <script>
+                alert('${mensajeConfirmarAnular}');
             </script>
         </c:if>
     </body>
