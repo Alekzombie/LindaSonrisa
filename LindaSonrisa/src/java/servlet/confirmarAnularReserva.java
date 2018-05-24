@@ -47,6 +47,7 @@ public class confirmarAnularReserva extends HttpServlet {
             }
             if(action.equals("anular")){
                 if(new ReservaController().anularReserva(codigoReserva)){
+                    // borrar de tiempo_reserva?
                     ArrayList<String> lista = new ModuloController().listaModulosAnular(codigoReserva);
                     for(String id : lista){
                         new ModuloController().hacerDisponible(id);

@@ -16,14 +16,14 @@ public class ReservaController {
     public static ArrayList<Reserva> buscarReservasPorRutCliente(String rut){
         ArrayList lista = new ArrayList();
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement("select * from reserva join tiempo_reserva using (id_reserva) where rut_cliente=?")) {
+            try (PreparedStatement stmt = con.prepareStatement("select * from reserva where rut_cliente=?")) {
                 stmt.setString(1, rut);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Reserva reserva = new Reserva();
                     reserva.setId(rs.getInt("id_reserva"));
                     reserva.setEstadoReserva(rs.getString("estado_reserva"));
-                    reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));  // set modulo inicio para recuperar hora inicio
+                    //reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));  // set modulo inicio para recuperar hora inicio
                     Cliente cliente = new Cliente();
                     cliente.setRut(rs.getString("rut_cliente"));
                     reserva.setCliente(cliente);
@@ -42,13 +42,13 @@ public class ReservaController {
     public static ArrayList<Reserva> buscarReservasPorConfirmar(){
         ArrayList lista = new ArrayList();
         try (Connection con = Oracle.getConnection()) {
-            try (PreparedStatement stmt = con.prepareStatement("select * from reserva join tiempo_reserva using (id_reserva) where estado_reserva = 'POR CONFIRMAR'")) {
+            try (PreparedStatement stmt = con.prepareStatement("select * from reserva where estado_reserva = 'POR CONFIRMAR'")) {
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Reserva reserva = new Reserva();
                     reserva.setId(rs.getInt("id_reserva"));
                     reserva.setEstadoReserva(rs.getString("estado_reserva"));
-                    reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));
+                    //reserva.setModuloTiempo(rs.getString("id_modulo_tiempo"));
                     Cliente cliente = new Cliente();
                     cliente.setRut(rs.getString("rut_cliente"));
                     reserva.setCliente(cliente);
@@ -57,6 +57,7 @@ public class ReservaController {
                     reserva.setServicio(servicio);
                     lista.add(reserva);
                 }
+                con.close();
             }
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Error en ReservaController.buscarReservasPorConfirmar " + ex.getMessage());

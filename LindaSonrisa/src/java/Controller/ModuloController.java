@@ -38,7 +38,7 @@ public class ModuloController {
             try (PreparedStatement stmt = con.prepareStatement("select id_modulo from modulo_tiempo m join tiempo_reserva t on m.id_modulo=t.id_modulo_tiempo where id_reserva = ?")) {
                 stmt.setInt(1, idReserva);
                 ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     lista.add(rs.getString("id_modulo"));
                 }                
             }
