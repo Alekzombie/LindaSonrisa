@@ -168,7 +168,7 @@
                                     <td>*Contraseña</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="text" name="txtContraseña" value="" required="" /></td>
+                                    <td><input type="text" name="txtContrasenia" value="" required="" /></td>
                                 </tr>
                                 <tr>
                                     <td>*Ingresa otra vez tu Contraseña</td>

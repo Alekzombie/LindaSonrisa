@@ -73,7 +73,7 @@ public class crearUsuario extends HttpServlet {
             
             Usuario usuario = new Usuario();
             usuario.setNombreUsuario(request.getParameter("txtUsuario"));
-            usuario.setPassword(request.getParameter("txtContraseña"));
+            usuario.setPassword(request.getParameter("txtContrasenia"));
             usuario.setRutPersona(cliente.getRut());
             usuario.setTipoUsuario("CLT");
             

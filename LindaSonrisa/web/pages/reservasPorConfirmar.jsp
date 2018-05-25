@@ -39,15 +39,18 @@
                 <form action="/LindaSonrisa/listarReservasPorConfirmar" method="POST" name="fetchReservasPorConfirmar">
                     
                 </form>
+                <c:if test="${empty listaReservasPorConfirmar}">
+                    <h1>No hay reservas para confirmar</h1>
+                </c:if>
                 <c:if test="${listaReservasPorConfirmar!=null}">
+                    
                     <ul class="lista">
                         <c:forEach var="reserva" items="${listaReservasPorConfirmar}">
-                            <form action="/LindaSonrisa/confirmarAnularReserva" method="POST">
+                            <form action="/LindaSonrisa/detalleReservaConfirmar" method="POST">
                                 <li class="lista-item">
                                     <span class="codigo">Reserva N°<c:out value="${reserva.getId()}"/></span>
                                     <input type="hidden" name="txtCodigoReserva" value="<c:out value="${reserva.getId()}"/>" />
-                                    <button name="action" value="confirmar" type="submit">Confirmar</button> 
-                                    <button name="action" value="anular" type="submit">Anular</button>
+                                    <input class="btnVer" type="submit" value="Ver" />
                                 </li>    
                             </form>
                         </c:forEach>

@@ -33,10 +33,10 @@
             <section class="content">
 
                 <section class="reserva">
-                    <form action="/LindaSonrisa/confirmarReserva" method="POST">
+                    <form action="/LindaSonrisa/confirmarAnularReserva" method="POST">
                     
                     <h2 class="reserva-codigo">
-                        <c:out value="${reservaCodigo}"/><input type="hidden" name="txtReservaConfirmar" value="<c:out value="${reservaCodigo}"/>" />
+                        <c:out value="${reservaCodigo}"/><input type="hidden" name="txtCodigoReserva" value="<c:out value="${reservaCodigo}"/>" />
                     </h2>
                     <article class="reserva-detalles">
                         <table border="0">
@@ -67,7 +67,8 @@
                                 </tr>
                             </tbody>
                         </table>
-
+                        <button name="action" value="confirmar" type="submit">Confirmar</button> 
+                        <button name="action" value="anular" type="submit">Anular</button>
                     </article>
                     </form>
                 </section>

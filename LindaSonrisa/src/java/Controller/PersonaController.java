@@ -81,7 +81,7 @@ public class PersonaController {
 //                    stmt.setString(7, "NONE");
 //                    stmt.setString(6, ((Isapre) auxps).getId());
 //                }
-                if (stmt.executeUpdate() > 1) {
+                if (stmt.executeUpdate() > 0) {
                     return true;
                 }
             }

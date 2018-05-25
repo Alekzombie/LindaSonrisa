@@ -120,4 +120,17 @@ public class ReservaController {
         }
         return false;
     }
+    public static boolean borrarDeTiempoReserva(int id){
+        try (Connection con = Oracle.getConnection()) {
+            try (PreparedStatement stmt = con.prepareStatement("delete from tiempo_reserva where id_reserva=?")) {
+                stmt.setInt(1, id);
+                if (stmt.executeUpdate()>0){                    
+                    return true;
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Error en ReservaController.anularReserva " + ex.getMessage());
+        }
+        return false;
+    }
 }

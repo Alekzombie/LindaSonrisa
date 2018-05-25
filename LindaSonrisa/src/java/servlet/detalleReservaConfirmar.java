@@ -5,6 +5,14 @@
  */
 package servlet;
 
+import Controller.ClienteController;
+import Controller.EmpleadoController;
+import Controller.ModuloController;
+import Controller.ReservaController;
+import Model.Cliente;
+import Model.Empleado;
+import Model.ModuloTiempo;
+import Model.Reserva;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,18 +20,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Controller.ReservaController;
-import Controller.ModuloController;
-import Model.Reserva;
-import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author hozonov
+ * @author yarredondo
  */
-@WebServlet(name = "confirmarAnularReserva", urlPatterns = {"/confirmarAnularReserva"})
-public class confirmarAnularReserva extends HttpServlet {
+@WebServlet(name = "detalleReservaConfirmar", urlPatterns = {"/detalleReservaConfirmar"})
+public class detalleReservaConfirmar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,24 +42,18 @@ public class confirmarAnularReserva extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            Reserva reserva = new ReservaController().buscarReservaPorId(Integer.parseInt(request.getParameter("txtCodigoReserva")));
+            Cliente cliente = new ClienteController().buscarCliente(reserva.getCliente().getRut());
+            ModuloTiempo modulo = new ModuloController().buscarModuloPorId(reserva.getModuloTiempo());
+            Empleado empleado = new EmpleadoController().buscarEmpleadoPorRut(modulo.getRutEmpleado());
             HttpSession sesion = request.getSession();
-            int codigoReserva = Integer.parseInt(request.getParameter("txtCodigoReserva"));
-            String action = request.getParameter("action");
-            if(action.equals("confirmar")){
-                if(new ReservaController().confirmarReserva(codigoReserva)){
-                    sesion.setAttribute("mensajeConfirmarAnular", "La reserva N°"+codigoReserva+" ha sido Confirmada");
-                }
-            }
-            if(action.equals("anular")){
-                if(new ReservaController().anularReserva(codigoReserva)){
-                    if(new ReservaController().borrarDeTiempoReserva(codigoReserva)){
-                        sesion.setAttribute("mensajeConfirmarAnular", "La reserva N°"+codigoReserva+" ha sido Anulada");
-                    }
-                }
-            }
-            ArrayList<Reserva> listaReservasPorConfirmar = new ReservaController().buscarReservasPorConfirmar();
-            sesion.setAttribute("listaReservasPorConfirmar", listaReservasPorConfirmar);
-            response.sendRedirect("/LindaSonrisa/pages/reservasPorConfirmar.jsp");
+            sesion.setAttribute("reservaCodigo", reserva.getId());
+            sesion.setAttribute("reservaNombreCliente", cliente.getNombre()+" "+cliente.getApellidoPaterno()+" "+cliente.getApellidoMaterno());
+            sesion.setAttribute("reservaRutCliente", cliente.getRut());
+            sesion.setAttribute("reservaFecha", modulo.getFecha());
+            sesion.setAttribute("reservaHora", modulo.getHoraInicio());
+            sesion.setAttribute("reservaEmpleado", empleado.getNombre()+" "+empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+            response.sendRedirect("/LindaSonrisa/pages/confirmarReserva.jsp");
         }
     }
 
